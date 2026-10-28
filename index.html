@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#176b52">
+  <meta name="description" content="Gestion Boutique : ventes, dépenses, stock et bilans.">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <title>Gestion Boutique</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-icon">GB</div><div><strong>Gestion Boutique</strong><small>Gestion de caisse et de stock</small></div></div>
+    <div class="top-actions"><span id="todayLabel"></span><button class="btn btn-light" id="installBtn" hidden>Installer l’app</button></div>
+  </header>
+  <main class="container">
+    <div class="notice"><strong>Mode GitHub uniquement :</strong> les données sont enregistrées sur cet appareil. Pour les retrouver sur un autre appareil, utilise <em>Paramètres → Exporter</em>, puis importe le fichier sur l’autre appareil.</div>
+    <nav class="tabs" aria-label="Navigation">
+      <button class="tab active" data-page="dashboard">Tableau de bord</button>
+      <button class="tab" data-page="sales">Ventes</button>
+      <button class="tab" data-page="expenses">Dépenses</button>
+      <button class="tab" data-page="stock">Stock</button>
+      <button class="tab" data-page="history">Historique</button>
+      <button class="tab" data-page="settings">Paramètres</button>
+    </nav>
+
+    <section class="page active" id="page-dashboard">
+      <div class="section-heading"><div><h1>Tableau de bord</h1><p>Consulte les résultats de ta boutique.</p></div>
+        <label class="filter-label">Période
+          <select id="periodFilter">
+            <option value="day">Aujourd’hui</option><option value="week">Cette semaine</option><option value="month" selected>Ce mois</option><option value="semester">Ce semestre</option><option value="year">Cette année</option><option value="all">Tout l’historique</option>
+          </select>
+        </label>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card"><span class="stat-icon green">↗</span><span class="stat-label">Ventes</span><strong id="statSales">0 FCFA</strong><small id="countSales">0 vente</small></article>
+        <article class="stat-card"><span class="stat-icon orange">↘</span><span class="stat-label">Dépenses</span><strong id="statExpenses">0 FCFA</strong><small id="countExpenses">0 dépense</small></article>
+        <article class="stat-card"><span class="stat-icon blue">＝</span><span class="stat-label">Solde ventes − dépenses</span><strong id="statResult">0 FCFA</strong><small>Hors coût des marchandises vendues non saisi en dépense</small></article>
+        <article class="stat-card"><span class="stat-icon purple">▦</span><span class="stat-label">Articles en stock</span><strong id="statStock">0</strong><small id="stockValue">Valeur d’achat : 0 FCFA</small></article>
+      </div>
+      <div class="two-col">
+        <article class="panel"><div class="panel-head"><h2>Dernières opérations</h2><button class="text-btn" data-goto="history">Tout voir</button></div><div id="recentOperations" class="empty">Aucune opération pour le moment.</div></article>
+        <article class="panel"><div class="panel-head"><h2>Alertes de stock</h2><button class="text-btn" data-goto="stock">Gérer le stock</button></div><div id="stockAlerts" class="empty">Aucune alerte.</div></article>
+      </div>
+    </section>
+
+    <section class="page" id="page-sales">
+      <div class="section-heading"><div><h1>Enregistrer une vente</h1><p>Le stock du produit sera diminué automatiquement.</p></div></div>
+      <div class="panel form-panel">
+        <form id="saleForm" class="form-grid">
+          <label>Produit<select id="saleProduct" required><option value="">Choisir un produit</option></select></label>
+          <label>Quantité<input id="saleQty" type="number" min="1" step="1" value="1" required></label>
+          <label>Prix unitaire (FCFA)<input id="salePrice" type="number" min="0" step="1" required placeholder="Ex. 1500"></label>
+          <label>Mode de paiement<select id="salePayment"><option>Espèces</option><option>Wave</option><option>Orange Money</option><option>Carte</option><option>Crédit</option><option>Autre</option></select></label>
+          <label>Date de la vente<input id="saleDate" type="date" required></label>
+          <label>Note (facultatif)<input id="saleNote" maxlength="160" placeholder="Ex. commande client"></label>
+          <div class="form-total">Montant de la vente <strong id="saleTotal">0 FCFA</strong></div>
+          <div class="form-actions"><button class="btn btn-primary" type="submit">Enregistrer la vente</button></div>
+        </form>
+        <p class="muted small">Ajoute d’abord tes produits dans l’onglet Stock. Une vente ne peut pas dépasser le stock disponible.</p>
+      </div>
+    </section>
+
+    <section class="page" id="page-expenses">
+      <div class="section-heading"><div><h1>Enregistrer une dépense</h1><p>Note les achats et les charges de la boutique.</p></div></div>
+      <div class="panel form-panel">
+        <form id="expenseForm" class="form-grid">
+          <label>Libellé<input id="expenseName" required maxlength="100" placeholder="Ex. Achat de marchandises"></label>
+          <label>Catégorie<select id="expenseCategory"><option>Marchandises</option><option>Loyer</option><option>Électricité</option><option>Eau</option><option>Transport</option><option>Salaire</option><option>Internet / téléphone</option><option>Entretien</option><option>Autre</option></select></label>
+          <label>Montant (FCFA)<input id="expenseAmount" type="number" min="1" step="1" required placeholder="Ex. 5000"></label>
+          <label>Date de la dépense<input id="expenseDate" type="date" required></label>
+          <label>Mode de paiement<select id="expensePayment"><option>Espèces</option><option>Wave</option><option>Orange Money</option><option>Carte</option><option>Autre</option></select></label>
+          <label>Note (facultatif)<input id="expenseNote" maxlength="160" placeholder="Détail facultatif"></label>
+          <div class="form-actions"><button class="btn btn-primary" type="submit">Enregistrer la dépense</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="page" id="page-stock">
+      <div class="section-heading"><div><h1>Gestion du stock</h1><p>Crée tes produits, ajoute les réapprovisionnements et surveille les quantités.</p></div></div>
+      <div class="panel form-panel">
+        <h2 id="productFormTitle">Ajouter un produit</h2>
+        <form id="productForm" class="form-grid">
+          <input id="productId" type="hidden">
+          <label>Nom du produit<input id="productName" required maxlength="100" placeholder="Ex. Riz 1 kg"></label>
+          <label>Référence (facultatif)<input id="productSku" maxlength="40" placeholder="Ex. RIZ-001"></label>
+          <label>Prix de vente (FCFA)<input id="productPrice" type="number" min="0" step="1" required placeholder="Ex. 1000"></label>
+          <label>Prix d’achat unitaire (FCFA)<input id="productCost" type="number" min="0" step="1" value="0" required></label>
+          <label>Quantité en stock<input id="productQty" type="number" min="0" step="1" value="0" required></label>
+          <label>Seuil d’alerte<input id="productAlert" type="number" min="0" step="1" value="3" required></label>
+          <div class="form-actions"><button class="btn btn-primary" type="submit" id="saveProductBtn">Ajouter le produit</button> <button class="btn btn-light" type="button" id="cancelProductEdit" hidden>Annuler</button></div>
+        </form>
+      </div>
+      <div class="panel table-panel"><div class="panel-head"><h2>Produits en stock</h2><input id="stockSearch" class="search" placeholder="Rechercher un produit…"></div><div class="table-wrap"><table><thead><tr><th>Produit</th><th>Prix vente</th><th>Prix achat</th><th>Stock</th><th>Valeur achat</th><th>Actions</th></tr></thead><tbody id="stockTable"></tbody></table></div><div id="stockEmpty" class="empty">Aucun produit. Ajoute ton premier produit ci-dessus.</div></div>
+    </section>
+
+    <section class="page" id="page-history">
+      <div class="section-heading"><div><h1>Historique</h1><p>Retrouve les ventes et dépenses enregistrées.</p></div><button id="exportCsvBtn" class="btn btn-light">Exporter en CSV</button></div>
+      <div class="panel table-panel">
+        <div class="history-controls"><select id="historyType"><option value="all">Toutes les opérations</option><option value="sale">Ventes uniquement</option><option value="expense">Dépenses uniquement</option></select><input id="historySearch" class="search" placeholder="Rechercher…"><input id="historyFrom" type="date" aria-label="Date de début"><input id="historyTo" type="date" aria-label="Date de fin"></div>
+        <div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Détail</th><th>Paiement</th><th>Montant</th><th>Action</th></tr></thead><tbody id="historyTable"></tbody></table></div><div id="historyEmpty" class="empty">Aucune opération trouvée.</div>
+      </div>
+    </section>
+
+    <section class="page" id="page-settings">
+      <div class="section-heading"><div><h1>Paramètres et sauvegarde</h1><p>Protège tes données et déplace-les entre appareils.</p></div></div>
+      <div class="two-col">
+        <article class="panel"><h2>Sauvegarder les données</h2><p>Exporte les produits, ventes et dépenses dans un fichier JSON.</p><button class="btn btn-primary" id="exportJsonBtn">Exporter la sauvegarde</button><hr><h2>Restaurer une sauvegarde</h2><p>Importe un fichier JSON exporté depuis Gestion Boutique. L’import remplace les données actuelles de cet appareil.</p><label class="btn btn-light file-button">Choisir un fichier JSON<input type="file" id="importJsonInput" accept=".json,application/json" hidden></label></article>
+        <article class="panel"><h2>Réinitialiser les données</h2><p class="danger-text">Cette action efface les données enregistrées sur cet appareil. Exporte une sauvegarde avant de continuer.</p><button class="btn btn-danger" id="clearDataBtn">Effacer toutes les données</button><hr><h2>À propos</h2><p>Gestion Boutique fonctionne dans le navigateur. GitHub Pages héberge l’application, mais ne stocke pas les opérations saisies.</p><p class="muted small">Conseil : fais régulièrement une sauvegarde et conserve-la dans un endroit sûr.</p></article>
+      </div>
+    </section>
+    <footer>Gestion Boutique · Montants en FCFA · Données conservées localement sur cet appareil</footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>

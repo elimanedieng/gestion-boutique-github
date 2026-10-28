@@ -1,0 +1,13 @@
+{
+  "name": "Gestion Boutique",
+  "short_name": "Boutique",
+  "description": "Gestion des ventes, dépenses et stocks",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f6",
+  "theme_color": "#176b52",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
