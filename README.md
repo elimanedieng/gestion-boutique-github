@@ -1,39 +1,32 @@
-# Gestion Boutique
+# Gestion Boutique — version complète
 
-Application web progressive (PWA) en français pour suivre les ventes, dépenses et stocks. Elle fonctionne sur GitHub Pages et peut être installée sur Android et ordinateur.
+Application web en français pour gérer les ventes, dépenses, produits et stocks en FCFA. Compatible ordinateur et Android via navigateur/PWA.
 
-## Fonctionnalités
-- Ventes avec quantité, prix, date et moyen de paiement.
-- Déduction automatique du stock après une vente.
-- Dépenses avec catégories.
-- Produits, prix d'achat, prix de vente, quantités et seuil d'alerte.
-- Bilans : jour, semaine, mois, semestre, année et historique complet.
-- Historique filtrable et export CSV.
-- Export/import JSON pour sauvegarder et transférer les données.
-- Interface adaptée aux petits écrans et cache hors connexion.
+## Installation sur GitHub Pages
+1. Fais d'abord une sauvegarde JSON depuis **Paramètres → Exporter la sauvegarde** sur chaque appareil contenant des données.
+2. Ouvre ton dépôt GitHub.
+3. Remplace les fichiers du dépôt par TOUS les fichiers de ce dossier, à la racine : `index.html`, `style.css`, `app.js`, `manifest.json`, `sw.js`, `icon.svg`, `README.md`.
+4. Clique sur **Commit changes**.
+5. Dans **Settings → Pages**, vérifie `Deploy from a branch`, branche `main`, dossier `/ (root)`.
+6. Attends la publication, puis ouvre l'adresse GitHub Pages de ton dépôt.
+7. Sur l'application, fais `Ctrl + F5` sur PC. Sur Android, ferme complètement l'application installée puis rouvre-la. Si l'ancienne version reste, ouvre le site dans Chrome et actualise.
 
-## Déploiement sur GitHub Pages
-1. Connecte-toi à https://github.com et crée un dépôt public nommé `gestion-boutique`.
-2. Sur la page du dépôt, clique **Add file → Upload files**.
-3. Envoie les fichiers `index.html`, `style.css`, `app.js`, `manifest.json`, `sw.js`, `icon.svg` et `README.md` à la racine du dépôt.
-4. Clique **Commit changes**.
-5. Ouvre **Settings → Pages**.
-6. Dans **Build and deployment**, choisis **Deploy from a branch**.
-7. Sélectionne la branche `main` et le dossier `/ (root)`, puis clique **Save**.
-8. Attends la publication. L’adresse sera du type `https://TON-PSEUDO.github.io/gestion-boutique/`.
+## Fonctions
+- Tableau de bord : ventes, dépenses, solde et valeur d'achat du stock.
+- Filtres : jour, semaine, mois, semestre, année et tout l'historique.
+- Ventes : choix du produit, quantité décimale, unité, prix et mode de paiement.
+- Dépenses : catégorie, date, paiement et note.
+- Stock : création/modification/suppression, réapprovisionnement, recherche et seuil d'alerte.
+- Catalogue de départ : bouton **Ajouter produits courants** avec des produits usuels de boutique.
+- Unités : kg/g/mg, L/cl/ml et pièce, paquet, sachet, carton, bouteille, bidon, boîte, douzaine, sac.
+- Conversion automatique des unités de poids et volume. Exemple : un stock de 5 kg permet une vente de 500 g et le stock restant devient 4,5 kg.
+- Historique filtrable, export CSV, sauvegarde et restauration JSON.
+- Installation PWA et fonctionnement hors ligne après première visite.
 
-## Installation
-- **Android (Chrome)** : ouvre l'adresse HTTPS publiée, menu ⋮ → **Installer l'application** ou **Ajouter à l'écran d'accueil**.
-- **PC (Chrome ou Edge)** : ouvre l'adresse, puis utilise l'icône d'installation dans la barre d'adresse ou le menu du navigateur.
+## Données et synchronisation
+GitHub Pages héberge les fichiers de l'application mais ne synchronise pas les données. Les ventes, dépenses et stocks sont enregistrés localement dans le navigateur de chaque appareil. Pour transférer les données : exporter un JSON depuis l'appareil source, puis l'importer sur l'autre appareil. L'import remplace les données locales de destination.
 
-## Sauvegarde et synchronisation
-Cette version utilise le stockage local du navigateur (`localStorage`). **GitHub Pages héberge les fichiers, mais ne synchronise pas les données de caisse entre appareils.**
-Pour transférer les données : sur le premier appareil, ouvre **Paramètres → Exporter la sauvegarde** ; transfère le fichier JSON au second appareil ; ouvre la même application sur celui-ci et choisis **Paramètres → Choisir un fichier JSON**.
+**Important :** garde tes sauvegardes JSON en lieu sûr et ne les dépose pas dans un dépôt GitHub public. La version conserve la clé locale `gestionBoutiqueData_v1` pour retrouver les données de la version précédente sur le même navigateur.
 
-Import important : l'import remplace les données déjà présentes sur l'appareil de destination. Fais d'abord une sauvegarde de sécurité. Ne publie jamais de sauvegarde contenant des données privées dans un dépôt GitHub public.
-
-## Limites
-- Pas de compte utilisateur ni de synchronisation automatique entre plusieurs appareils.
-- Les données restent dans le navigateur de l'appareil. Effacer les données du navigateur peut les supprimer.
-- Le résultat affiché correspond aux ventes moins les dépenses saisies. Pour connaître un bénéfice net exact, enregistre aussi les achats de marchandises comme dépenses et évite de compter deux fois un même achat.
-- Les produits sont des articles simples, sans variantes ni gestion de lots.
+## Calcul du solde
+Le solde affiché est : ventes enregistrées moins dépenses enregistrées. Pour tenir compte du coût des marchandises, saisis les achats de marchandises dans les dépenses. Ne saisis pas deux fois le même achat.
