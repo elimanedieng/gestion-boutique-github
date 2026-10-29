@@ -51,8 +51,9 @@
       <div class="panel form-panel">
         <form id="saleForm" class="form-grid">
           <label>Produit<select id="saleProduct" required><option value="">Choisir un produit</option></select></label>
-          <label>Quantité<input id="saleQty" type="number" min="1" step="1" value="1" required></label>
-          <label>Prix unitaire (FCFA)<input id="salePrice" type="number" min="0" step="1" required placeholder="Ex. 1500"></label>
+          <label>Quantité vendue<input id="saleQty" type="number" min="0.001" step="any" value="1" required></label>
+          <label>Unité de vente<select id="saleUnit" required><option value="">Choisir une unité</option></select></label>
+          <label>Prix pour cette unité (FCFA)<input id="salePrice" type="number" min="0" step="1" required placeholder="Ex. 1500"></label>
           <label>Mode de paiement<select id="salePayment"><option>Espèces</option><option>Wave</option><option>Orange Money</option><option>Carte</option><option>Crédit</option><option>Autre</option></select></label>
           <label>Date de la vente<input id="saleDate" type="date" required></label>
           <label>Note (facultatif)<input id="saleNote" maxlength="160" placeholder="Ex. commande client"></label>
@@ -87,13 +88,18 @@
           <label>Nom du produit<input id="productName" required maxlength="100" placeholder="Ex. Riz 1 kg"></label>
           <label>Référence (facultatif)<input id="productSku" maxlength="40" placeholder="Ex. RIZ-001"></label>
           <label>Prix de vente (FCFA)<input id="productPrice" type="number" min="0" step="1" required placeholder="Ex. 1000"></label>
-          <label>Prix d’achat unitaire (FCFA)<input id="productCost" type="number" min="0" step="1" value="0" required></label>
-          <label>Quantité en stock<input id="productQty" type="number" min="0" step="1" value="0" required></label>
-          <label>Seuil d’alerte<input id="productAlert" type="number" min="0" step="1" value="3" required></label>
+          <label>Unité de stock<select id="productUnit" required>
+            <optgroup label="Poids"><option value="kg">Kilogramme (kg)</option><option value="g">Gramme (g)</option><option value="mg">Milligramme (mg)</option></optgroup>
+            <optgroup label="Volume"><option value="L">Litre (L)</option><option value="cl">Centilitre (cl)</option><option value="ml">Millilitre (ml)</option></optgroup>
+            <optgroup label="Unités commerciales"><option value="pièce">Pièce</option><option value="paquet">Paquet</option><option value="sachet">Sachet</option><option value="carton">Carton</option><option value="bouteille">Bouteille</option><option value="bidon">Bidon</option><option value="boîte">Boîte</option><option value="douzaine">Douzaine</option><option value="sac">Sac</option></optgroup>
+          </select></label>
+          <label>Prix d’achat par unité (FCFA)<input id="productCost" type="number" min="0" step="1" value="0" required></label>
+          <label>Quantité en stock<input id="productQty" type="number" min="0" step="any" value="0" required></label>
+          <label>Seuil d’alerte<input id="productAlert" type="number" min="0" step="any" value="3" required></label>
           <div class="form-actions"><button class="btn btn-primary" type="submit" id="saveProductBtn">Ajouter le produit</button> <button class="btn btn-light" type="button" id="cancelProductEdit" hidden>Annuler</button></div>
         </form>
       </div>
-      <div class="panel table-panel"><div class="panel-head"><h2>Produits en stock</h2><input id="stockSearch" class="search" placeholder="Rechercher un produit…"></div><div class="table-wrap"><table><thead><tr><th>Produit</th><th>Prix vente</th><th>Prix achat</th><th>Stock</th><th>Valeur achat</th><th>Actions</th></tr></thead><tbody id="stockTable"></tbody></table></div><div id="stockEmpty" class="empty">Aucun produit. Ajoute ton premier produit ci-dessus.</div></div>
+      <div class="panel table-panel"><div class="panel-head"><h2>Produits en stock</h2><div class="table-actions"><button class="btn btn-light" id="loadDefaultsBtn" type="button">Ajouter produits courants</button><input id="stockSearch" class="search" placeholder="Rechercher un produit…"></div></div><div class="table-wrap"><table><thead><tr><th>Produit</th><th>Prix vente</th><th>Prix achat</th><th>Stock</th><th>Valeur achat</th><th>Actions</th></tr></thead><tbody id="stockTable"></tbody></table></div><div id="stockEmpty" class="empty">Aucun produit. Ajoute ton premier produit ci-dessus.</div></div>
     </section>
 
     <section class="page" id="page-history">
