@@ -30,3 +30,7 @@ GitHub Pages héberge les fichiers de l'application mais ne synchronise pas les 
 
 ## Calcul du solde
 Le solde affiché est : ventes enregistrées moins dépenses enregistrées. Pour tenir compte du coût des marchandises, saisis les achats de marchandises dans les dépenses. Ne saisis pas deux fois le même achat.
+
+
+## Catalogue élargi
+Le bouton « Ajouter le catalogue complet (150+ produits) » ajoute un large catalogue de produits courants de boutique. Les produits déjà présents ne sont pas dupliqués. Les prix, prix d’achat et stocks sont initialisés à zéro : renseigne-les selon tes tarifs réels.

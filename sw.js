@@ -1,4 +1,4 @@
-const CACHE = "gestion-boutique-v3-20261029";
+const CACHE = "gestion-boutique-v4-20261029";
 const FILES = ["./", "./index.html", "./style.css", "./app.js", "./manifest.json", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));
